@@ -1,4 +1,20 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# fpl-companion
+A React web app that serves as a companion app for fantasy premier league
+
+
+
+## Note
+This app only runs locally as of yet, as it is still in development.
+
+
+
+## Requirements
+You will need to have a way of allowing CORS in order for the app to fetch the fpl data.
+
+I used [this](https://mybrowseraddon.com/access-control-allow-origin.html) extension with chrome.
+
+[Here](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf) is the link to the extension in Chrome store.
+
 
 ## Available Scripts
 
