@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.Home {
+  background-color: #282c34;
+  color: white;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -12,9 +17,21 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+.tab-left {
+  background-color: #282c34;
+  width: 150px;
+}
+
+.container {
+  display: flex;
+}
+
+div {
+  padding-top: 5px;
+}
 
 .App-header {
-  background-color: #282c34;
+  
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -28,11 +45,4 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+

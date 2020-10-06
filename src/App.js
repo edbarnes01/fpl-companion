@@ -1,23 +1,59 @@
-import React from 'react';
-import logo from './logo.svg';
+
+import http from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Button } from 'react-bootstrap';
 import './App.css';
+import TeamChooseView from './TeamChooseView';
+
 
 function App() {
-  return (
+
+  const [teamContent, teamUpdate] = useState([]);
+  const [players, playerUpdate] = useState([]);  
+  const [isFetched, fetchUpdate] = useState(false);
+
+  String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  }
+
+  
+  const getPlayers = () => {
+    http.get(`https://fantasy.premierleague.com/api/bootstrap-static/`)
+    .then((response) =>{
+        const playerArray = response.data.elements;
+        playerUpdate(playerArray);
+    })
+    .catch((error) => console.log(error));
+    };
+
+  const getData = () => {
+    http.get(`https://fantasy.premierleague.com/api/bootstrap-static/`)
+        .then((response) => {
+            teamUpdate(response.data.teams);
+            getPlayers()
+            return response.data.teams;
+        })
+        .catch((error) => console.log(error));
+  }
+
+  useEffect(() => {
+    if (teamContent.length > 0) {
+      fetchUpdate(true);
+    }
+  });
+
+  return isFetched ? (
+    <div className="Home">
+      <TeamChooseView teamContent={teamContent} players={players} />
+    </div>
+  ) : (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+        <Button 
+        onClick={() => getData()}
         >
-          Learn React
-        </a>
+          Enter
+        </Button>
       </header>
     </div>
   );
