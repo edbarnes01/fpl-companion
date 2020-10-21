@@ -3,7 +3,7 @@ import http from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import './App.css';
-import TeamChooseView from './TeamChooseView';
+import Home from './Home';
 
 
 function App() {
@@ -30,6 +30,8 @@ function App() {
     http.get(`https://fantasy.premierleague.com/api/bootstrap-static/`)
         .then((response) => {
             teamUpdate(response.data.teams);
+            
+            
             getPlayers()
             return response.data.teams;
         })
@@ -44,7 +46,7 @@ function App() {
 
   return isFetched ? (
     <div className="Home">
-      <TeamChooseView teamContent={teamContent} players={players} />
+      <Home teamContent={teamContent} players={players} />
     </div>
   ) : (
     <div className="App">

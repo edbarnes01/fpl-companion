@@ -2,9 +2,87 @@
   text-align: center;
 }
 
+.dropdown-pad {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+li { 
+  cursor: pointer; 
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.xIcon { 
+  cursor: pointer; 
+  margin-left: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.xIcon-row {
+  cursor: pointer; 
+  min-width: 240;
+  margin-left: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+input {
+  width: 200px;
+}
+.float-left {
+  float: left;
+}
+
+.col-top {
+  align-items: top;
+  justify-content: top;
+}
+.search-list {
+  width: 226px;
+  max-height: 400px;
+  overflow: auto;
+  list-style-type: none;
+  margin: 0;
+  padding-top: 10;
+  padding-bottom: 2;
+
+  background-color: #3f444f;
+}
+
+.player-list {
+  max-height: 400px;
+  overflow: auto;
+  overflow-x: hidden;
+  list-style-type: none;
+  margin: 0;
+  padding-top: 10;
+  padding-bottom: 2;
+  align-items: top;
+  justify-content: top;
+}
+
 .Home {
+  height: 100%;
+  width: 100%;
+  padding-top: 15px;
+  padding-left: 15px;
   background-color: #282c34;
   color: white;
+}
+
+body > #root > div {
+  height: 100%;
+}
+
+.Full {
+  height: 100%;
+  width: 100%;
 }
 
 .App-logo {
@@ -28,6 +106,28 @@
 
 div {
   padding-top: 5px;
+  
+}
+
+#page {
+  height: 100%;
+  width: 100%;
+}
+
+.no-margin {
+  margin: 0;
+
+}
+
+.body {
+  padding-top: 10px;
+  background-color: #282c34;
+  color: white;
+}
+
+.line {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .App-header {

@@ -3,7 +3,8 @@ import { Tab, Row, Col, Nav, Dropdown} from 'react-bootstrap';
 import TeamAnalysisView from './TeamAnalysisView';
 import PlayerAnalysisView from './PlayerAnalysisView';
 
-function TeamSquadView({team, players}) {
+
+const TeamSquadView = ({team, players}) => {
     const [viewOption, setViewOption] = useState('Player');
     
     return (
@@ -27,6 +28,7 @@ function TeamSquadView({team, players}) {
                                 <Nav.Item key='Team'>
                                     <Nav.Link eventKey='Team'>Team</Nav.Link>
                                 </Nav.Item>
+                                
                             </Nav>
                         
                     </Row>

@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import allSettled from 'promise.allsettled';
 import http from 'axios';
-import { Dropdown, Button, Col} from 'react-bootstrap';
+import { Dropdown } from 'react-bootstrap';
+import { chartDataColors, accumOptions } from '../utils/ChartUtils'
 import TeamChart from './TeamChart';
 
 
-function TeamAnalysisView({team, players}){
-    
-    var dynamicColors = function() {
-        var r = Math.floor(Math.random() * 255);
-        var g = Math.floor(Math.random() * 255);
-        var b = Math.floor(Math.random() * 255);
-        return "rgb(" + r + "," + g + "," + b + ")";
-    }
+const TeamAnalysisView = ({team, players}) => {
 
     const [chartOption, setChartOption] = useState('Options');
     useEffect(() => {
@@ -24,16 +18,16 @@ function TeamAnalysisView({team, players}){
         setChartOption('Options');
         console.log('load me baby');
     }, [team]);
-    
+
     const [loading, setLoading] = useState(true);
     
-    function camelize(str) {
+    const camelize = (str) => {
         return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
           return word.toUpperCase();
         }).replace(/\s+/g, ' ');
     }
 
-    function readable(str) {
+    const readable = (str) => {
         return camelize(str.replace(/_/g, ' '))
     }
 
@@ -45,7 +39,7 @@ function TeamAnalysisView({team, players}){
     "transfers_out"]
 
     const getPlayerData = async (listPlayerIds) => {
-        var playerList = [];
+        let playerList = [];
         const playerData = await allSettled(listPlayerIds.map((playerId) => http.get(`https://fantasy.premierleague.com/api/element-summary/${playerId}/`)))
         .then((results) => {
             //console.log(results)
@@ -63,7 +57,7 @@ function TeamAnalysisView({team, players}){
     }
 
     const returnPlayerIds = (teamId) => {
-        var playerList = [];
+        let playerList = [];
         players.forEach(player => {
             if (player.team === teamId) {
                 playerList.push(
@@ -75,7 +69,7 @@ function TeamAnalysisView({team, players}){
     }
 
     const returnPlayerName = (playerId) => {
-        var playerList = [];
+        let playerList = [];
         players.forEach(player => {
             if (player.id === playerId) {
                 playerList.push(
@@ -87,32 +81,39 @@ function TeamAnalysisView({team, players}){
     };
 
     const makeDataSet = async (selection) => {
-        var labels = [];
-        var datasets = [];
+        let labels = [];
+        let datasets = [];
         const playerIds = returnPlayerIds(team.id);
 
         const playerData = await getPlayerData(playerIds)
         .then((results) => {
             labels = Array.from({length: 4}, (_, i) => i + 1)
             
-            results.map((player) => {
-                var playerDataSet = [];
-
+            results.map((player, i) => {
+                let playerDataSet = [];
+                let accumData = [];
+                console.log(i);
+                console.log(chartDataColors());
+                let color = (`rgba(${chartDataColors()[i]}, 0.9)`);
+                console.log(color);
                 player.map((fixture) => {
                     playerDataSet.push(fixture[selection]);
                 })
-
+                
+                if (accumOptions().includes(selection)) {
+                    playerDataSet.reduce(function(a,b,i) { 
+                        return accumData[i] = a+b; 
+                    },0);
+                }
+                
                 const playerReturn = {
                     label: returnPlayerName(player[0].element),
                     fill: false,
-                    lineTension: 0,
-                    fillColor: "rgba(000,111,111,55)",
-                    strokeColor: "rgba(000,111,111,55)",
-                    pointColor: "rgba(000,111,111,55)",
-                    backgroundColor: player.element,
-                    borderColor: 'rgba(0,0,0,1)',
+                    lineTension: 0.2,
+                    backgroundColor: color,
+                    borderColor: color,
                     borderWidth: 1,
-                    data: playerDataSet
+                    data: ((accumOptions().includes(selection)) ? accumData : playerDataSet)
                 }
                 datasets.push(playerReturn);
             });
@@ -125,7 +126,7 @@ function TeamAnalysisView({team, players}){
 
     return (
         <div className="container-fluid">
-            <Dropdown>
+            <Dropdown className="dropdown-pad">
                 <Dropdown.Toggle variant="success" id="dropdown-basic">
                     {readable(chartOption)}
                 </Dropdown.Toggle>

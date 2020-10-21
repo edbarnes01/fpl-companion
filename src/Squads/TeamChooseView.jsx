@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Tab, Row, Col, Nav} from 'react-bootstrap';
+
 import TeamSquadView from './TeamSquadView'
 
 const TeamChooseView = ({teamContent, players}) => {
@@ -14,7 +15,7 @@ const TeamChooseView = ({teamContent, players}) => {
                 activeKey={key}
                 onSelect={(k) => setKey(k)}
                 >   
-                    <Col sm={3}>
+                    <Col>
                         <Nav 
                         className="flex-column"
                         variant='pills'
@@ -40,6 +41,7 @@ const TeamChooseView = ({teamContent, players}) => {
                         </Tab.Content>
                     </Col>)}
                 </Tab.Container>
+                
             </Row>    
         </div>
     )

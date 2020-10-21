@@ -1,30 +1,21 @@
-import {Line} from 'react-chartjs-2';
-import React, {useState} from 'react';
+import { Line } from 'react-chartjs-2';
+import React from 'react';
+import { kFormatter } from '../utils/StringUtils'
+import { dynamicColor } from '../utils/ChartUtils'
+import '../App.css';
 
-function PlayerChart({chartData, title, playerName}) {
+const PlayerChart = ({chartData, title, playerName}) => {
+    let color = dynamicColor();
     
-    //const labels = playerData.
-    
-    function kFormatter(num) {
-        if ((Math.abs(num) > 999) && (Math.abs(num) < 1000000)) {
-            return Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k'
-        } else if (Math.abs(num) > 999999) {
-            return Math.sign(num)*((Math.abs(num)/1000000).toFixed(1)) + 'm'
-        } else {
-            return Math.sign(num)*Math.abs(num)
-        }
-         
-      }
-
     const state = {
         labels: chartData.labels,
         datasets: [
             {
             label: playerName,
             fill: false,
-            lineTension: 0.5,
-            backgroundColor: 'rgba(75,192,192,1)',
-            borderColor: 'rgba(0,0,0,1)',
+            lineTension: 0.2,
+            backgroundColor: color,
+            borderColor: color,
             borderWidth: 1,
             data: chartData.data
             }
@@ -32,9 +23,12 @@ function PlayerChart({chartData, title, playerName}) {
     }
 
     return (
-        <div>
+        <div className="container-fluid">
         <Line
+            className="line"
             data={state}
+            width={800}
+            height={400}
             options={{
                 title:{
                     display:false,
@@ -45,8 +39,8 @@ function PlayerChart({chartData, title, playerName}) {
                     callbacks: {
                         enabled: true,
                         title: function(tooltipItem, data) {
-                            var title = tooltipItem[0].xLabel;
-                            //var title = data.labels[tooltipItem.datasetIndex];
+                            let title = tooltipItem[0].xLabel;
+                            //let title = data.labels[tooltipItem.datasetIndex];
                             return (`GW${title}`);
                         },
                         label: function(tooltipItem, data) {
@@ -58,31 +52,42 @@ function PlayerChart({chartData, title, playerName}) {
                     yAxes: [{
                         scaleLabel: {
                         display: true,
-                        labelString: title.capitalize()
+                        labelString: title.capitalize(),
+                        fontColor: 'rgba(255,255,255,.9)'
                         },
                         ticks: {
                             callback: function(value, index, values) {
                                 return kFormatter(value);
                             }
+                        },
+                        gridLines: {
+                            color:'rgba(255,255,255,.9)',
+                            lineWidth: 0.3
                         }
                     }],
                     xAxes: [{
                         scaleLabel: {
                         display: true,
+                        fontColor: 'rgba(255,255,255,.9)',
                         labelString: 'Gameweek'
                         },
                         ticks: {
                             callback: function(value, index, values) {
                                 return kFormatter(value);
                             }
+                        },
+                        gridLines: {
+                            color:'rgba(255,255,255,.9)',
+                            lineWidth: 0.3
                         }
                     }]
+                    
                 },
                 legend:{
                     display:true,
                     position:'right'
-                }
-            }}
+                },
+        }}
         />
         </div>
     );

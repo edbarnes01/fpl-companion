@@ -3,14 +3,14 @@ import {Tab, Row, Col, Nav} from 'react-bootstrap';
 import http from 'axios';
 import PlayerDetail from './PlayerDetail';
 
-function PlayerAnalysisView({team, players}){
+const PlayerAnalysisView = ({team, players}) => {
     const [playerKey, setPlayerKey] = useState('0');
     const [playerData, setPlayerData] = useState();
     const [labels, setLabels] = useState([]);
     const [data, setData] = useState([]);
 
 
-    function getPlayerData(playerId) {
+    const getPlayerData = (playerId) => {
         console.log(`this is your search id: ${playerId}`)
         http.get(`https://fantasy.premierleague.com/api/element-summary/${playerId}/`)
         .then((response) =>{
@@ -20,7 +20,7 @@ function PlayerAnalysisView({team, players}){
     }
 
     const returnPlayers = (teamId) => {
-        var playerList = [];
+        let playerList = [];
         players.forEach(player => {
             if (player.team === teamId) {
                 playerList.push(
@@ -33,7 +33,7 @@ function PlayerAnalysisView({team, players}){
 
     const getPlayer = (playerId) => {
         console.log(`checking for id: ${playerId}`);
-        var chosenPlayer = [];
+        let chosenPlayer = [];
         players.forEach(player => {
             if (player.id === Number(playerId)) {
                 console.log('this is the chosen player', player.web_name);

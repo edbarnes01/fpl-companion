@@ -2,13 +2,13 @@ import {Line} from 'react-chartjs-2';
 import React from 'react';
 
 
-function TeamChart({chartData, title, team}) {
+const TeamChart = ({chartData, title, team}) => {
     const data = {
         labels: chartData.labels,
         datasets: chartData.datasets
     }
 
-    function kFormatter(num) {
+    const kFormatter = (num) => {
         if ((Math.abs(num) > 999) && (Math.abs(num) < 1000000)) {
             return Math.sign(num)*((Math.abs(num)/1000).toFixed(1)) + 'k'
         } else if (Math.abs(num) > 999999) {
@@ -35,8 +35,22 @@ function TeamChart({chartData, title, team}) {
                     callbacks: {
                         enabled: true,
                         title: function(tooltipItem, data) {
-                            console.log(tooltipItem[0]);
+                            //console.log(tooltipItem[0]);
                             return(`GW ${tooltipItem[0].xLabel}`);
+                        },
+                        afterTitle: function(tooltipItem, data) {
+                            //console.log(data.datasets[tooltipItem[0].datasetIndex]);
+                            //console.log(tooltipItem);
+                            let labels = [];
+                            tooltipItem.map((item) => {
+                                //console.log(item.datasetIndex);
+                                labels.push(data.datasets[item.datasetIndex].label)
+                            });
+                            return labels;
+                        },
+                        label: function(tooltipItem, data) {
+                            console.log(data.datasets[tooltipItem.datasetIndex].label);
+                            return kFormatter(tooltipItem.yLabel);
                         }
                     }
                 },
@@ -50,6 +64,10 @@ function TeamChart({chartData, title, team}) {
                             callback: function(value, index, values) {
                                 return kFormatter(value);
                             }
+                        },
+                        gridLines: {
+                            color:'rgba(255,255,255,.9)',
+                            lineWidth: 0.3
                         }
                     }],
                     xAxes: [{
@@ -61,8 +79,13 @@ function TeamChart({chartData, title, team}) {
                             callback: function(value, index, values) {
                                 return kFormatter(value);
                             }
+                        },
+                        gridLines: {
+                            color:'rgba(255,255,255,.9)',
+                            lineWidth: 0.3
                         }
                     }]
+                    
                 },
                 legend:{
                     display:true,
